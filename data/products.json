@@ -1,0 +1,70 @@
+[
+  {
+    "id": "beagles-bagels",
+    "name": "Beagle's Bagels",
+    "description": "Beagle's Bagels are our peanut butter–packed classic — small, crunchy, and perfect for everyday treating. Made in small batches with simple ingredients in bagel-shaped bites, they're easy to break, easy to love, and a favorite with pups. Great for training, behavior rewards, or casual snacking.",
+    "shortDescription": "Peanut butter–packed bagel-shaped bites. Small-batch, crunchy, and perfect for everyday treating.",
+    "price": 8.00,
+    "image": "/images/Beagle_PB_Bagels.png",
+    "badge": "Classic",
+    "ingredients": "Peanuts, Whole Wheat Flour, Cinnamon, Baking Powder",
+    "nutritionLabel": "/images/2026_Beagle_s_Bagels_Nutrition_Label.png",
+    "sizeOptions": [
+      { "label": "Regular", "value": "regular", "hint": "Perfect for medium and large dogs. Great for casual snacking and rewards." },
+      { "label": "Mini", "value": "mini", "hint": "Cheerio-sized! Ideal for small dogs, puppies, and training treats." }
+    ],
+    "variants": [
+      { "type": "size", "label": "Single Bag", "value": "single", "price": 8.00 },
+      { "type": "size", "label": "2-Pack", "value": "2-pack", "price": 15.00 }
+    ]
+  },
+  {
+    "id": "lucys-loopies",
+    "name": "Lucy's Loopies",
+    "description": "Playful, ring-shaped treats with a hint of apple flavor and a satisfying crunch. These colorful loops are designed for dogs who appreciate variety — convenient to portion, fun to give, and special enough to make every treat moment count.",
+    "shortDescription": "Ring-shaped treats with a hint of apple flavor. Colorful, crunchy, and easy to portion.",
+    "price": 8.00,
+    "image": "/images/Lucy_s_Loopies_2026.png",
+    "badge": "Fan Favorite",
+    "ingredients": "Oat Flour, Apples, Beet Powder, Blue Spirulina, Cheddar Cheese Powder",
+    "nutritionLabel": "/images/2026_Lucy_Loopie_Nutrition_Label.png",
+    "variants": [
+      { "type": "size", "label": "Single Bag", "value": "single", "price": 8.00 },
+      { "type": "size", "label": "2-Pack", "value": "2-pack", "price": 15.00 }
+    ]
+  },
+  {
+    "id": "winstons-woofles",
+    "name": "Winston's Woofles",
+    "description": "Light, crunchy waffle-style treats made with real cheesy goodness. These bite-sized treats have a soft crunch dogs love and are perfect for daily rewards, training sessions, or sneaking one into your pocket before a walk. A staple in our treat jars — and once your dog tries them, they'll be a staple in yours too.",
+    "shortDescription": "Waffle-style treats with real cheesy goodness. Light, crunchy, and perfect for training.",
+    "price": 8.00,
+    "image": "/images/Winston_s_Woofles_2026.png",
+    "badge": "New",
+    "ingredients": "Almond Flour, Cheese Blend",
+    "nutritionLabel": "/images/2026_Woofle_Nutrition_Label.png",
+    "sizeOptions": [
+      { "label": "Regular", "value": "regular", "hint": "Perfect for medium and large dogs. Great for casual snacking and rewards." },
+      { "label": "Mini", "value": "mini", "hint": "Cheerio-sized! Ideal for small dogs, puppies, and training treats." }
+    ],
+    "variants": [
+      { "type": "size", "label": "Single Bag", "value": "single", "price": 8.00 },
+      { "type": "size", "label": "2-Pack", "value": "2-pack", "price": 15.00 }
+    ]
+  },
+  {
+    "id": "mooses-medley",
+    "name": "Moose's Medley",
+    "description": "Can't pick just one flavor? Neither can Moose. Our most popular mix — Peanut Butter, Cheese, and Apple all in one bag. Small-batch baked, big-time approved.",
+    "shortDescription": "Our most popular mix — Peanut Butter, Cheese, and Apple all in one bag.",
+    "price": 12.00,
+    "image": "/images/Moose_s_Medley.png",
+    "badge": "Best Seller",
+    "ingredients": "Bagels: Peanuts, Whole Wheat Flour, Cinnamon, Baking Powder | Woofles: Almond Flour, Cheese Blend | Loopies: Oat Flour, Apples, Beet Powder, Blue Spirulina, Cheddar Cheese Powder",
+    "nutritionLabel": "/images/2026_Moose_Medley_Nutrition_Label.png",
+    "variants": [
+      { "type": "size", "label": "Single Bag", "value": "single", "price": 12.00 },
+      { "type": "size", "label": "2-Pack", "value": "2-pack", "price": 20.00 }
+    ]
+  }
+]

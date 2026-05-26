@@ -1,0 +1,16 @@
+[
+  {
+    "id": "the-odd-dog-book",
+    "name": "The Odd Dog",
+    "author": "Leia Barrett",
+    "illustrator": "Shannon McKeon",
+    "editor": "Melinda Martin",
+    "description": "The Odd Dog is the story of a quirky stray learning to live with a family for the first time. After being discovered in the wild, Odd finds herself with a loving family but finds her odd dog skills don't get quite the reaction she was expecting. A silly, sweet story about love, acceptance, and finding where you belong.",
+    "image": "/images/Odd_Dog_Cover.jpg",
+    "price": 15.00,
+    "variants": [
+      { "type": "edition", "label": "Standard Copy", "value": "standard", "price": 15.00 },
+      { "type": "edition", "label": "Signed & Personalized Copy", "value": "signed", "price": 20.00 }
+    ]
+  }
+]
