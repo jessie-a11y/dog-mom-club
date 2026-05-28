@@ -42,7 +42,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 pt-6 border-t border-brown-soft/30 text-xs text-brown-light text-center">
-          &copy; {new Date().getFullYear()} Dog Mom Club. All rights reserved.
+          &copy; {new Date().getFullYear()} Dog Mom Club. All rights reserved. Made with 🐾 in Kansas City.
         </div>
       </div>
     </footer>
