@@ -21,8 +21,5 @@ jobs:
       - name: Pull Vercel project settings
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Build project
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-
       - name: Deploy to Vercel Production
-        run: vercel deploy --prebuilt --prod --no-wait --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel --prod --no-wait --token=${{ secrets.VERCEL_TOKEN }}
