@@ -19,5 +19,4 @@ jobs:
         run: npm install --global vercel@latest
 
       - name: Deploy to Vercel Production
-        run: vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
-        timeout-minutes: 10
+        run: vercel --prod --yes --no-wait --token=${{ secrets.VERCEL_TOKEN }}
