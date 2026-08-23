@@ -88,6 +88,7 @@ export async function POST(req: NextRequest) {
       ...(personalizationNotes ? { metadata: { personalization_notes: personalizationNotes } } : {}),
       success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/cart`,
+      allow_promotion_codes: true,
       shipping_address_collection: { allowed_countries: ['US'] },
       shipping_options: shippingOptions,
     })

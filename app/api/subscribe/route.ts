@@ -20,6 +20,7 @@ export async function POST(_req: NextRequest) {
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}&type=subscription`,
       cancel_url: `${baseUrl}/subscribe`,
+      allow_promotion_codes: true,
       billing_address_collection: 'required',
     })
 
