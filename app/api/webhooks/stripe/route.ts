@@ -144,7 +144,7 @@ async function sendOrderNotificationEmail(params: {
   `
 
   const { error } = await resend.emails.send({
-    from: 'Dog Mom Club <orders@dogmomclub.com>',
+    from: 'Dog Mom Club <orders@dogmomclub.store>',
     to: notifyEmail,
     subject: `New order from ${params.customerName ?? params.customerEmail}`,
     html,
