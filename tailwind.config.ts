@@ -27,6 +27,17 @@ const config: Config = {
           light: '#c4a49a',
           dark: '#5c3d2e',
         },
+        // Holiday 2026 palette. Used by the homepage and announcement bar; remove in January.
+        holiday: {
+          pine: '#1d3b2f',
+          berry: '#a51e2d',
+          gold: '#c8a24a',
+          'gold-light': '#e7c873',
+          snow: '#fbf7ef',
+          line: '#e6dcc6',
+          ink: '#22201c',
+          muted: '#4a4438',
+        },
         teal: {
           DEFAULT: '#4A9B9B',
           light: '#6bb5b5',

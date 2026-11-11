@@ -1,0 +1,27 @@
+[
+  {
+    "id": "lucys-loopies",
+    "name": "Lucy's Loopies",
+    "description": "Playful, ring-shaped treats with a hint of apple flavor and a satisfying crunch. These colorful loops are designed for dogs who appreciate variety — convenient to portion, fun to give, and special enough to make every treat moment count.",
+    "shortDescription": "Ring-shaped treats with a hint of apple flavor. Colorful, crunchy, and easy to portion.",
+    "price": 8.0,
+    "image": "/images/Lucy_s_Loopies_2026.png",
+    "badge": "Fan Favorite",
+    "ingredients": "Oat Flour, Apples, Beet Powder, Blue Spirulina, Cheddar Cheese Powder",
+    "nutritionLabel": "/images/2026_Lucy_Loopie_Nutrition_Label.png",
+    "variants": [
+      {
+        "type": "size",
+        "label": "Single Bag",
+        "value": "single",
+        "price": 8.0
+      },
+      {
+        "type": "size",
+        "label": "2-Pack",
+        "value": "2-pack",
+        "price": 15.0
+      }
+    ]
+  }
+]

@@ -1,4 +1,8 @@
 import type { Metadata } from 'next'
+import { BOUTIQUE, HOTPLATE_URL, isBefore } from '@/lib/holiday'
+
+// Rebuild hourly so past events drop off on time.
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Find Us',
@@ -46,6 +50,8 @@ const markets = [
 interface Event {
   name: string
   date: string
+  /** Last day of a multi-day event (defaults to date). */
+  endDate?: string
   display: string
   url: string | null
   image: string | null
@@ -80,6 +86,7 @@ const events: Event[] = [
   {
     name: 'Weston Applefest',
     date: '2026-10-03',
+    endDate: '2026-10-04',
     display: 'October 3–4, 2026',
     url: 'https://www.westonmo.com/calendar-events#!event/2026/10/3/applefest-weston-apos-s-fall-harvest-celebration-since-1990',
     image: null,
@@ -88,7 +95,8 @@ const events: Event[] = [
   {
     name: 'Kansas City Holiday Boutique',
     date: '2026-11-18',
-    display: 'November 18–22, 2026',
+    endDate: '2026-11-22',
+    display: 'November 18-22, 2026 · Overland Park Convention Center · Booth 703A',
     url: 'https://www.kcholidayboutique.com/',
     image: null,
     imageAlt: 'Kansas City Holiday Boutique',
@@ -96,6 +104,7 @@ const events: Event[] = [
   {
     name: 'Kristkindl Market',
     date: '2026-12-04',
+    endDate: '2026-12-05',
     display: 'December 4–5, 2026',
     url: 'https://www.kcucc.org/kkm',
     image: null,
@@ -120,7 +129,9 @@ function Placeholder({ label }: { label: string }) {
 }
 
 export default function FindUsPage() {
-  const today = new Date().toISOString().slice(0, 10)
+  const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Chicago' })
+  const upcoming = events.filter((e) => (e.endDate ?? e.date) >= today)
+  const boutiqueActive = isBefore(BOUTIQUE.ends)
 
   return (
     <div>
@@ -136,6 +147,39 @@ export default function FindUsPage() {
           </p>
         </div>
       </section>
+
+      {/* Featured: KC Holiday Boutique */}
+      {boutiqueActive && (
+        <section className="holiday-berry text-white">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14 flex flex-wrap items-center justify-between gap-8">
+            <div className="flex flex-col gap-2">
+              <span className="text-xs font-bold tracking-[0.22em] uppercase text-[#f6e7c1]">Featured event</span>
+              <h2 className="font-serif text-4xl">{BOUTIQUE.name}</h2>
+              <p className="text-lg text-[#fbecec]">
+                {BOUTIQUE.dates} · {BOUTIQUE.venue} · <strong>{BOUTIQUE.booth}</strong>
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href={HOTPLATE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center min-h-[48px] rounded-full bg-holiday-snow px-6 py-3 font-bold text-holiday-berry hover:bg-white transition-colors"
+              >
+                Pre-order an Advent Box for booth pickup
+              </a>
+              <a
+                href={BOUTIQUE.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center min-h-[48px] rounded-full border-2 border-white px-6 py-3 font-bold text-white hover:bg-white/10 transition-colors"
+              >
+                Show info
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Weekly Markets */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -208,8 +252,8 @@ export default function FindUsPage() {
           </div>
 
           <ol className="relative border-l-2 border-cream-200 space-y-0">
-            {events.map((event) => {
-              const past = event.date < today
+            {upcoming.map((event) => {
+              const past = false
               return (
                 <li key={event.name} className="ml-6 pb-10 last:pb-0">
                   {/* Timeline dot */}

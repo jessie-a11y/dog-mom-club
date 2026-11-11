@@ -42,6 +42,20 @@ body {
     @apply w-full px-4 py-3 rounded-xl border border-cream-300 bg-cream-50 focus:outline-none focus:ring-2 focus:ring-rose-dusty/30 focus:border-rose-dusty transition;
   }
 
+  /* Holiday 2026: subtle snow-dot pattern for dark sections */
+  .holiday-snow {
+    background-color: #1d3b2f;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1.5px, transparent 2px),
+      radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1.5px);
+    background-size: 46px 46px, 23px 23px;
+    background-position: 0 0, 11px 17px;
+  }
+  .holiday-berry {
+    background-color: #a51e2d;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1.5px, transparent 2px);
+    background-size: 30px 30px;
+  }
+
   /* Blog post body */
   .prose-blog {
     @apply text-brown-warm leading-relaxed;

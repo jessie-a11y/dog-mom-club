@@ -1,55 +1,65 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import type { CartItem } from '@/lib/types'
+import {
+  BUNDLES,
+  FREE_SHIPPING_THRESHOLD_CENTS,
+  STANDARD_SHIPPING_CENTS,
+  priceCart,
+} from '@/lib/pricing'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2023-10-16',
 })
 
-/**
- * Derives the env var name for a product+variant and returns the price ID.
- * e.g. productId="beagles-bagels", variantValue="2-pack"
- *   → process.env.NEXT_PUBLIC_STRIPE_PRICE_BEAGLES_BAGELS_2PACK
- */
-function getPriceId(productId: string, variantValue: string): string | undefined {
-  const productKey = productId.replace(/-/g, '_').toUpperCase()
-  const variantKey = variantValue.replace(/-/g, '').toUpperCase()
-  const envVar = `NEXT_PUBLIC_STRIPE_PRICE_${productKey}_${variantKey}`
-  return process.env[envVar]
-}
-
 export async function POST(req: NextRequest) {
   try {
     const { items }: { items: CartItem[] } = await req.json()
 
-    if (!items || items.length === 0) {
+    if (!Array.isArray(items) || items.length === 0) {
       return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
     }
 
-    // Resolve all price IDs before hitting Stripe
-    const resolvedItems = items.map((item) => {
-      const priceId = getPriceId(item.productId, item.variant.value)
-      if (!priceId) {
-        throw new Error(
-          `No Stripe price ID configured for product "${item.productId}" variant "${item.variant.value}"`
-        )
-      }
-      return { ...item, priceId }
-    })
+    // Prices always come from the server-side catalog, never from the browser.
+    const priced = priceCart(
+      items.map((i) => ({
+        productId: i.productId,
+        variantValue: i.variant?.value,
+        quantity: i.quantity,
+        note: typeof i.note === 'string' ? i.note.slice(0, 300) : undefined,
+      }))
+    )
+
+    if (priced.invalid.length > 0 || priced.lines.length === 0) {
+      return NextResponse.json(
+        { error: 'Some items in your cart are no longer available. Please refresh your cart and try again.' },
+        { status: 400 }
+      )
+    }
 
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
 
-    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = resolvedItems.map((item) => ({
-      price: item.priceId,
-      quantity: item.quantity,
-    }))
+    // One Stripe line item per price segment, so bundled units show at the bundle price.
+    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = priced.lines.flatMap((line) =>
+      line.segments.map((seg) => ({
+        quantity: seg.quantity,
+        price_data: {
+          currency: 'usd',
+          unit_amount: seg.unitCents,
+          product_data: {
+            name: `${line.name} (${line.variantLabel})${
+              seg.bundled && line.bundle ? `, ${BUNDLES[line.bundle].label}` : ''
+            }`,
+            ...(baseUrl.startsWith('https://') ? { images: [`${baseUrl}${line.image}`] } : {}),
+            metadata: { product_id: line.productId, variant: line.variantValue },
+          },
+        },
+      }))
+    )
 
-    // Determine if the cart qualifies for free shipping
-    const FREE_SHIPPING_THRESHOLD = 29_00 // in cents
-    const cartTotalCents = items.reduce((sum, item) => sum + Math.round(item.price * 100) * item.quantity, 0)
-    const qualifiesForFreeShipping = cartTotalCents >= FREE_SHIPPING_THRESHOLD
+    // Free shipping is based on the bundle-priced subtotal (before promo codes).
+    const qualifiesForFreeShipping = priced.subtotalCents >= FREE_SHIPPING_THRESHOLD_CENTS
 
-    // One shipping option only: free at $35+, otherwise standard $5.99
     const shippingOptions: Stripe.Checkout.SessionCreateParams.ShippingOption[] = [
       qualifiesForFreeShipping
         ? {
@@ -66,7 +76,7 @@ export async function POST(req: NextRequest) {
         : {
             shipping_rate_data: {
               type: 'fixed_amount',
-              fixed_amount: { amount: 599, currency: 'usd' },
+              fixed_amount: { amount: STANDARD_SHIPPING_CENTS, currency: 'usd' },
               display_name: 'Standard shipping',
               delivery_estimate: {
                 minimum: { unit: 'business_day', value: 2 },
@@ -77,10 +87,11 @@ export async function POST(req: NextRequest) {
     ]
 
     // Collect any personalization notes for session-level visibility in Stripe dashboard
-    const personalizationNotes = items
-      .filter((i) => i.note)
-      .map((i) => `${i.name} (${i.variant.label}): ${i.note}`)
+    const personalizationNotes = priced.lines
+      .filter((l) => l.note)
+      .map((l) => `${l.name} (${l.variantLabel}): ${l.note}`)
       .join(' | ')
+      .slice(0, 500)
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',

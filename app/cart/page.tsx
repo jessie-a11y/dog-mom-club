@@ -4,9 +4,14 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/components/CartProvider'
+import { BUNDLES, FREE_SHIPPING_THRESHOLD_CENTS, STANDARD_SHIPPING_CENTS } from '@/lib/pricing'
 
 export default function CartPage() {
-  const { items, removeItem, updateQuantity, totalPrice, totalItems } = useCart()
+  const { items, removeItem, updateQuantity, totalPrice, totalItems, priced } = useCart()
+  const FREE_SHIPPING_THRESHOLD = FREE_SHIPPING_THRESHOLD_CENTS / 100
+  const SHIPPING = STANDARD_SHIPPING_CENTS / 100
+  const lineFor = (productId: string, variantValue: string) =>
+    priced.lines.find((l) => l.productId === productId && l.variantValue === variantValue)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -23,7 +28,7 @@ export default function CartPage() {
       if (data.url) {
         window.location.href = data.url
       } else {
-        setError('Something went wrong. Please try again.')
+        setError(data.error ?? 'Something went wrong. Please try again.')
       }
     } catch {
       setError('Something went wrong. Please try again.')
@@ -69,9 +74,12 @@ export default function CartPage() {
                 <div className="flex items-start justify-between gap-2">
                   <div>
                     <h3 className="font-semibold text-brown-dark">{item.name}</h3>
-                    <p className="text-sm text-brown-warm capitalize">
-                      {item.variant.type}: {item.variant.label}
-                    </p>
+                    <p className="text-sm text-brown-warm">{item.variant.label}</p>
+                    {lineFor(item.productId, item.variant.value)?.segments.some((seg) => seg.bundled) && (
+                      <p className="mt-1 inline-block text-xs font-semibold text-white bg-[#1d3b2f] rounded-full px-2.5 py-0.5">
+                        {BUNDLES[lineFor(item.productId, item.variant.value)!.bundle!].label} applied
+                      </p>
+                    )}
                     {item.note && (
                       <p className="mt-1 text-xs text-brown-light italic">
                         ✍️ &ldquo;{item.note}&rdquo;
@@ -106,7 +114,7 @@ export default function CartPage() {
                     </button>
                   </div>
                   <span className="font-semibold text-brown-dark">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    ${((lineFor(item.productId, item.variant.value)?.totalCents ?? Math.round(item.price * 100) * item.quantity) / 100).toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -121,7 +129,6 @@ export default function CartPage() {
 
             {/* Free shipping progress */}
             {(() => {
-              const FREE_SHIPPING_THRESHOLD = 35
               const needed = Math.max(0, FREE_SHIPPING_THRESHOLD - totalPrice)
               const progress = Math.min(100, (totalPrice / FREE_SHIPPING_THRESHOLD) * 100)
               return (
@@ -146,19 +153,25 @@ export default function CartPage() {
             })()}
 
             <div className="space-y-3 text-sm">
+              {priced.savingsCents > 0 && (
+                <div className="flex justify-between text-[#1d3b2f] font-medium">
+                  <span>Bundle savings</span>
+                  <span>-${(priced.savingsCents / 100).toFixed(2)}</span>
+                </div>
+              )}
               <div className="flex justify-between text-brown-warm">
                 <span>Subtotal ({totalItems} items)</span>
                 <span>${totalPrice.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-brown-warm">
                 <span>Shipping</span>
-                <span className={totalPrice >= 35 ? 'text-teal font-medium' : ''}>
-                  {totalPrice >= 35 ? 'Free' : '$5.99'}
+                <span className={totalPrice >= FREE_SHIPPING_THRESHOLD ? 'text-teal font-medium' : ''}>
+                  {totalPrice >= FREE_SHIPPING_THRESHOLD ? 'Free' : `$${SHIPPING.toFixed(2)}`}
                 </span>
               </div>
               <div className="pt-3 border-t border-cream-300 flex justify-between font-semibold text-brown-dark">
                 <span>Total</span>
-                <span>${(totalPrice + (totalPrice >= 35 ? 0 : 5.99)).toFixed(2)}</span>
+                <span>${(totalPrice + (totalPrice >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING)).toFixed(2)}</span>
               </div>
             </div>
 
@@ -173,6 +186,7 @@ export default function CartPage() {
             >
               {loading ? 'Redirecting…' : 'Checkout with Stripe'}
             </button>
+            <p className="mt-3 text-xs text-center text-brown-warm">Have a promo code? Enter it on the next page.</p>
 
             <Link
               href="/products"

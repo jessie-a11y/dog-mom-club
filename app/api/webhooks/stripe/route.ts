@@ -186,7 +186,7 @@ export async function POST(req: NextRequest) {
 
       if (session.mode === 'payment') {
         const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
-          limit: 20,
+          limit: 100,
         })
 
         const items = lineItems.data.map((item) => ({

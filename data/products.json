@@ -1,36 +1,102 @@
 [
   {
+    "id": "nutcracker-advent-box",
+    "name": "Nutcracker Advent Box",
+    "category": "advent",
+    "description": "Our classic advent calendar for dogs. Behind every door is a small-batch treat baked by hand in Kansas City, so your pup gets their own countdown to Christmas. Makes a great gift for the dog moms in your life.",
+    "shortDescription": "Our classic. A festive door for every day of December.",
+    "price": 15.0,
+    "image": "/images/holiday/nutcracker-advent-box.jpg",
+    "gallery": [
+      "/images/holiday/nutcracker-advent-with-tray.jpg"
+    ],
+    "badge": "Our Classic",
+    "ingredients": "An assortment of our small-batch treats. Full ingredient list coming soon.",
+    "variants": [
+      {
+        "type": "edition",
+        "label": "Advent Box",
+        "value": "box",
+        "price": 15.0
+      }
+    ]
+  },
+  {
+    "id": "kc-dogs-advent-box",
+    "name": "KC Dogs Advent Box",
+    "category": "advent",
+    "description": "Game-day pups for the Kingdom's goodest fans. Every door hides a small-batch treat baked by hand in Kansas City. The perfect holiday gift for a football-loving dog family.",
+    "shortDescription": "Game-day pups for the Kingdom's goodest fans.",
+    "price": 15.0,
+    "image": "/images/holiday/kc-dogs-advent-box.jpg",
+    "gallery": [
+      "/images/holiday/kc-dogs-advent-with-tray.jpg",
+      "/images/holiday/advent-treat-tray.jpg"
+    ],
+    "badge": "KC Exclusive",
+    "ingredients": "An assortment of our small-batch treats. Full ingredient list coming soon.",
+    "variants": [
+      {
+        "type": "edition",
+        "label": "Advent Box",
+        "value": "box",
+        "price": 15.0
+      }
+    ]
+  },
+  {
+    "id": "odd-dog-advent-box",
+    "name": "Odd Dog Advent Box",
+    "category": "advent",
+    "description": "The 12 Days of Odd Dog, illustrated with the watercolor pups from The Odd Dog. Every door hides a small-batch treat baked by hand in Kansas City.",
+    "shortDescription": "Twelve days of watercolor dogs and good-boy snacks.",
+    "price": 15.0,
+    "image": "/images/holiday/odd-dog-advent-box.jpg",
+    "gallery": [
+      "/images/holiday/odd-dog-advent-with-tray.jpg",
+      "/images/holiday/advent-treat-tray.jpg"
+    ],
+    "badge": "12 Days",
+    "ingredients": "An assortment of our small-batch treats. Full ingredient list coming soon.",
+    "variants": [
+      {
+        "type": "edition",
+        "label": "Advent Box",
+        "value": "box",
+        "price": 15.0
+      }
+    ]
+  },
+  {
     "id": "beagles-bagels",
     "name": "Beagle's Bagels",
     "description": "Beagle's Bagels are our peanut butter–packed classic — small, crunchy, and perfect for everyday treating. Made in small batches with simple ingredients in bagel-shaped bites, they're easy to break, easy to love, and a favorite with pups. Great for training, behavior rewards, or casual snacking.",
     "shortDescription": "Peanut butter–packed bagel-shaped bites. Small-batch, crunchy, and perfect for everyday treating.",
-    "price": 8.00,
-    "image": "/images/Beagle_PB_Bagels.png",
+    "price": 9.0,
+    "image": "/images/holiday/beagles-bagels-holiday.jpg",
     "badge": "Classic",
     "ingredients": "Peanuts, Whole Wheat Flour, Cinnamon, Baking Powder",
     "nutritionLabel": "/images/2026_Beagle_s_Bagels_Nutrition_Label.png",
-    "sizeOptions": [
-      { "label": "Regular", "value": "regular", "hint": "Perfect for medium and large dogs. Great for casual snacking and rewards." },
-      { "label": "Mini", "value": "mini", "hint": "Cheerio-sized! Ideal for small dogs, puppies, and training treats." }
+    "variants": [
+      {
+        "type": "size",
+        "label": "Large",
+        "value": "large",
+        "price": 9.0,
+        "hint": "Perfect for medium and large dogs. Great for casual snacking and rewards."
+      },
+      {
+        "type": "size",
+        "label": "Small",
+        "value": "small",
+        "price": 9.0,
+        "hint": "Cheerio-sized! Ideal for small dogs, puppies, and training treats."
+      }
     ],
-    "variants": [
-      { "type": "size", "label": "Single Bag", "value": "single", "price": 8.00 },
-      { "type": "size", "label": "2-Pack", "value": "2-pack", "price": 15.00 }
-    ]
-  },
-  {
-    "id": "lucys-loopies",
-    "name": "Lucy's Loopies",
-    "description": "Playful, ring-shaped treats with a hint of apple flavor and a satisfying crunch. These colorful loops are designed for dogs who appreciate variety — convenient to portion, fun to give, and special enough to make every treat moment count.",
-    "shortDescription": "Ring-shaped treats with a hint of apple flavor. Colorful, crunchy, and easy to portion.",
-    "price": 8.00,
-    "image": "/images/Lucy_s_Loopies_2026.png",
-    "badge": "Fan Favorite",
-    "ingredients": "Oat Flour, Apples, Beet Powder, Blue Spirulina, Cheddar Cheese Powder",
-    "nutritionLabel": "/images/2026_Lucy_Loopie_Nutrition_Label.png",
-    "variants": [
-      { "type": "size", "label": "Single Bag", "value": "single", "price": 8.00 },
-      { "type": "size", "label": "2-Pack", "value": "2-pack", "price": 15.00 }
+    "bundle": "pair16",
+    "category": "treat",
+    "gallery": [
+      "/images/Beagle_PB_Bagels.png"
     ]
   },
   {
@@ -38,18 +104,51 @@
     "name": "Winston's Woofles",
     "description": "Light, crunchy waffle-style treats made with real cheesy goodness. These bite-sized treats have a soft crunch dogs love and are perfect for daily rewards, training sessions, or sneaking one into your pocket before a walk. A staple in our treat jars — and once your dog tries them, they'll be a staple in yours too.",
     "shortDescription": "Waffle-style treats with real cheesy goodness. Light, crunchy, and perfect for training.",
-    "price": 8.00,
-    "image": "/images/Winston_s_Woofles_2026.png",
+    "price": 9.0,
+    "image": "/images/holiday/winstons-woofles-holiday.jpg",
     "badge": "New",
     "ingredients": "Almond Flour, Cheese Blend",
     "nutritionLabel": "/images/2026_Woofle_Nutrition_Label.png",
-    "sizeOptions": [
-      { "label": "Regular", "value": "regular", "hint": "Perfect for medium and large dogs. Great for casual snacking and rewards." },
-      { "label": "Mini", "value": "mini", "hint": "Cheerio-sized! Ideal for small dogs, puppies, and training treats." }
-    ],
     "variants": [
-      { "type": "size", "label": "Single Bag", "value": "single", "price": 8.00 },
-      { "type": "size", "label": "2-Pack", "value": "2-pack", "price": 15.00 }
+      {
+        "type": "size",
+        "label": "Large",
+        "value": "large",
+        "price": 9.0,
+        "hint": "Perfect for medium and large dogs. Great for casual snacking and rewards."
+      },
+      {
+        "type": "size",
+        "label": "Small",
+        "value": "small",
+        "price": 9.0,
+        "hint": "Cheerio-sized! Ideal for small dogs, puppies, and training treats."
+      }
+    ],
+    "bundle": "pair16",
+    "category": "treat",
+    "gallery": [
+      "/images/Winston_s_Woofles_2026.png"
+    ]
+  },
+  {
+    "id": "graffles",
+    "name": "Graffles",
+    "category": "treat",
+    "bundle": "pair16",
+    "description": "A Dog Mom Club market favorite, now available online for the holidays. Baked in small batches in Kansas City.",
+    "shortDescription": "A market favorite, now online for the holidays.",
+    "price": 9.0,
+    "image": "/images/holiday/graffles-placeholder.jpg",
+    "badge": "Holiday",
+    "ingredients": "Full ingredient list coming soon.",
+    "variants": [
+      {
+        "type": "size",
+        "label": "Single Bag",
+        "value": "single",
+        "price": 9.0
+      }
     ]
   },
   {
@@ -57,14 +156,23 @@
     "name": "Moose's Medley",
     "description": "Can't pick just one flavor? Neither can Moose. Our most popular mix — Peanut Butter, Cheese, and Apple all in one bag. Small-batch baked, big-time approved.",
     "shortDescription": "Our most popular mix — Peanut Butter, Cheese, and Apple all in one bag.",
-    "price": 12.00,
-    "image": "/images/Moose_s_Medley.png",
+    "price": 12.0,
+    "image": "/images/holiday/mooses-medley-holiday.jpg",
     "badge": "Best Seller",
     "ingredients": "Bagels: Peanuts, Whole Wheat Flour, Cinnamon, Baking Powder | Woofles: Almond Flour, Cheese Blend | Loopies: Oat Flour, Apples, Beet Powder, Blue Spirulina, Cheddar Cheese Powder",
     "nutritionLabel": "/images/2026_Moose_Medley_Nutrition_Label.png",
     "variants": [
-      { "type": "size", "label": "Single Bag", "value": "single", "price": 12.00 },
-      { "type": "size", "label": "2-Pack", "value": "2-pack", "price": 20.00 }
+      {
+        "type": "size",
+        "label": "Single Bag",
+        "value": "single",
+        "price": 12.0
+      }
+    ],
+    "bundle": "pair20",
+    "category": "treat",
+    "gallery": [
+      "/images/Moose_s_Medley.png"
     ]
   }
 ]

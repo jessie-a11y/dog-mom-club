@@ -27,6 +27,9 @@ export default function Navbar() {
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-8">
+            <Link href="/#advent" className="text-sm font-semibold text-holiday-berry hover:text-holiday-pine transition-colors">
+              Advent Boxes
+            </Link>
 
             <Link href="/products" className="text-sm font-medium text-brown-warm hover:text-teal transition-colors">
               Shop Treats
@@ -85,6 +88,7 @@ export default function Navbar() {
         {/* Mobile menu */}
         {menuOpen && (
           <div className="md:hidden py-4 border-t border-cream-200 flex flex-col gap-4">
+            <Link href="/#advent" className="text-sm font-semibold text-holiday-berry" onClick={() => setMenuOpen(false)}>Advent Boxes</Link>
             <Link href="/products" className="text-sm font-medium text-brown-warm" onClick={() => setMenuOpen(false)}>Shop Treats</Link>
             <Link href="/odd-dog-shop" className="text-sm font-medium text-brown-warm" onClick={() => setMenuOpen(false)}>Odd Dog Shop</Link>
             <Link href="/subscribe" className="text-sm font-medium text-brown-warm" onClick={() => setMenuOpen(false)}>Subscribe</Link>

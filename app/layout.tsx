@@ -3,6 +3,7 @@ import './globals.css'
 import { CartProvider } from '@/components/CartProvider'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import AnnouncementBar from '@/components/holiday/AnnouncementBar'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import Script from 'next/script'
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <CartProvider>
+          <AnnouncementBar />
           <Navbar />
           <main>{children}</main>
           <Footer />

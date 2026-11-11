@@ -5,7 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/components/CartProvider'
 import ProductCard from '@/components/ProductCard'
-import type { Product, ProductVariant, SizeOption } from '@/lib/types'
+import type { Product, ProductVariant } from '@/lib/types'
+import { BUNDLES } from '@/lib/pricing'
 
 interface Props {
   product: Product
@@ -14,20 +15,17 @@ interface Props {
 
 export default function ProductDetail({ product, related }: Props) {
   const { addItem } = useCart()
-  const [selectedSize, setSelectedSize] = useState<SizeOption | null>(
-    product.sizeOptions?.[0] ?? null
-  )
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(product.variants[0])
   const [quantity, setQuantity] = useState(1)
   const [added, setAdded] = useState(false)
   const [lightboxOpen, setLightboxOpen] = useState(false)
+  const images = [product.image, ...(product.gallery ?? [])]
+  const [activeImage, setActiveImage] = useState(images[0])
+  const bundle = product.bundle ? BUNDLES[product.bundle] : null
 
   const displayPrice = selectedVariant.price ?? product.price
 
-  // Compose the variant label to include size when applicable: "Mini, Single Bag"
-  const cartVariant: ProductVariant = selectedSize
-    ? { ...selectedVariant, label: `${selectedSize.label}, ${selectedVariant.label}` }
-    : selectedVariant
+  const cartVariant: ProductVariant = selectedVariant
 
   function handleAddToCart() {
     addItem({
@@ -63,7 +61,7 @@ export default function ProductDetail({ product, related }: Props) {
               </span>
             )}
             <Image
-              src={product.image}
+              src={activeImage}
               alt={product.name}
               fill
               priority
@@ -71,6 +69,24 @@ export default function ProductDetail({ product, related }: Props) {
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
+
+          {images.length > 1 && (
+            <div className="flex gap-3">
+              {images.map((src, i) => (
+                <button
+                  key={src}
+                  type="button"
+                  onClick={() => setActiveImage(src)}
+                  aria-label={`Show photo ${i + 1} of ${product.name}`}
+                  className={`relative h-20 w-20 rounded-xl overflow-hidden border-2 transition-colors ${
+                    activeImage === src ? 'border-rose-dusty' : 'border-cream-300 hover:border-rose-light'
+                  }`}
+                >
+                  <Image src={src} alt="" fill className="object-cover" sizes="80px" />
+                </button>
+              ))}
+            </div>
+          )}
 
           {product.nutritionLabel && (
             <div className="flex items-start gap-3">
@@ -99,7 +115,22 @@ export default function ProductDetail({ product, related }: Props) {
         {/* Details */}
         <div className="flex flex-col">
           <h1 className="font-serif text-4xl text-brown-dark">{product.name}</h1>
-          <p className="mt-2 text-2xl font-semibold text-rose-dusty">${displayPrice.toFixed(2)}</p>
+          <div className="mt-2 flex flex-wrap items-center gap-3">
+            <p className="text-2xl font-semibold text-rose-dusty">${displayPrice.toFixed(2)}</p>
+            {bundle && (
+              <span className="text-sm font-semibold text-white bg-[#1d3b2f] rounded-full px-3 py-1">
+                {bundle.label}
+              </span>
+            )}
+          </div>
+          {product.bundle === 'pair16' && (
+            <p className="mt-2 text-sm text-brown-warm">
+              Mix and match any two $9 bags (Beagle&apos;s Bagels, Winston&apos;s Woofles, Graffles) for $16. Applied automatically in your cart.
+            </p>
+          )}
+          {product.bundle === 'pair20' && (
+            <p className="mt-2 text-sm text-brown-warm">Two bags for $20. Applied automatically in your cart.</p>
+          )}
 
           <p className="mt-5 text-brown-warm leading-relaxed">{product.description}</p>
 
@@ -123,37 +154,11 @@ export default function ProductDetail({ product, related }: Props) {
             )}
           </div>
 
-          {/* Size selector — only for products with sizeOptions */}
-          {product.sizeOptions && product.sizeOptions.length > 0 && (
-            <div className="mt-6">
-              <p className="text-sm font-semibold text-brown-dark mb-3">Select size:</p>
-              <div className="flex flex-wrap gap-2">
-                {product.sizeOptions.map((size) => (
-                  <button
-                    key={size.value}
-                    onClick={() => setSelectedSize(size)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium border-2 transition-colors duration-150 ${
-                      selectedSize?.value === size.value
-                        ? 'border-rose-dusty bg-rose-pale text-rose-dusty'
-                        : 'border-cream-300 text-brown-warm hover:border-rose-light'
-                    }`}
-                  >
-                    {size.label}
-                  </button>
-                ))}
-              </div>
-              {selectedSize && (
-                <p className="mt-3 text-sm italic text-brown-warm bg-cream-100 border border-cream-300 rounded-xl px-4 py-2.5">
-                  {selectedSize.hint}
-                </p>
-              )}
-            </div>
-          )}
-
           {/* Variants */}
+          {product.variants.length > 1 && (
           <div className="mt-6">
-            <p className="text-sm font-semibold text-brown-dark mb-3 capitalize">
-              Select quantity:
+            <p className="text-sm font-semibold text-brown-dark mb-3">
+              {selectedVariant.type === 'size' ? 'Select size:' : 'Select option:'}
             </p>
             <div className="flex flex-wrap gap-2">
               {product.variants.map((variant) => (
@@ -173,7 +178,13 @@ export default function ProductDetail({ product, related }: Props) {
                 </button>
               ))}
             </div>
+            {selectedVariant.hint && (
+              <p className="mt-3 text-sm italic text-brown-warm bg-cream-100 border border-cream-300 rounded-xl px-4 py-2.5">
+                {selectedVariant.hint}
+              </p>
+            )}
           </div>
+          )}
 
           {/* Quantity */}
           <div className="mt-6">
@@ -213,7 +224,7 @@ export default function ProductDetail({ product, related }: Props) {
             {[
               { icon: '🌿', text: 'All-natural ingredients' },
               { icon: '🐾', text: 'Vet approved recipe' },
-              { icon: '📦', text: 'Free shipping on orders $35+' },
+              { icon: '📦', text: 'Free shipping on orders $29+' },
               { icon: '💛', text: 'Made in small batches' },
             ].map(({ icon, text }) => (
               <div key={text} className="flex items-center gap-2 text-xs text-brown-warm">

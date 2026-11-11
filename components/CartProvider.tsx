@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useReducer, ReactNode } from 'react'
 import type { CartItem } from '@/lib/types'
+import { lookup, priceCart, type PricedCart } from '@/lib/pricing'
 
 interface CartState {
   items: CartItem[]
@@ -21,6 +22,7 @@ interface CartContextValue extends CartState {
   clearCart: () => void
   totalItems: number
   totalPrice: number
+  priced: PricedCart
 }
 
 const CartContext = createContext<CartContextValue | null>(null)
@@ -28,7 +30,20 @@ const CartContext = createContext<CartContextValue | null>(null)
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
     case 'HYDRATE':
-      return { items: action.items }
+      // Drop items that are no longer sold and refresh names, labels and prices from the catalog.
+      return {
+        items: action.items.flatMap((i) => {
+          const found = i?.variant ? lookup(i.productId, i.variant.value) : null
+          if (!found) return []
+          return [{
+            ...i,
+            name: found.name,
+            image: found.image,
+            price: found.unitCents / 100,
+            variant: { ...i.variant, label: found.variantLabel },
+          }]
+        }),
+      }
 
     case 'ADD_ITEM': {
       const existing = state.items.find(
@@ -101,10 +116,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const clearCart = () => dispatch({ type: 'CLEAR_CART' })
 
   const totalItems = state.items.reduce((sum, i) => sum + i.quantity, 0)
-  const totalPrice = state.items.reduce((sum, i) => sum + i.price * i.quantity, 0)
+  const priced = priceCart(
+    state.items.map((i) => ({ productId: i.productId, variantValue: i.variant.value, quantity: i.quantity, note: i.note }))
+  )
+  // Bundle-priced subtotal (2 for $16 etc. already applied)
+  const totalPrice = priced.subtotalCents / 100
 
   return (
-    <CartContext.Provider value={{ ...state, addItem, removeItem, updateQuantity, clearCart, totalItems, totalPrice }}>
+    <CartContext.Provider value={{ ...state, addItem, removeItem, updateQuantity, clearCart, totalItems, totalPrice, priced }}>
       {children}
     </CartContext.Provider>
   )

@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Product } from '@/lib/types'
+import { BUNDLES } from '@/lib/pricing'
 
 export default function ProductCard({ product }: { product: Product }) {
   return (
@@ -28,7 +29,12 @@ export default function ProductCard({ product }: { product: Product }) {
           {product.shortDescription}
         </p>
         <div className="mt-3 flex items-center justify-between">
-          <span className="font-semibold text-brown-dark">${product.price.toFixed(2)}</span>
+          <span className="font-semibold text-brown-dark">
+            ${product.price.toFixed(2)}
+            {product.bundle && (
+              <span className="ml-2 text-xs font-semibold text-[#1d3b2f]">{BUNDLES[product.bundle].label}</span>
+            )}
+          </span>
           <span className="text-xs text-rose-dusty font-medium group-hover:underline">Shop now →</span>
         </div>
       </div>
