@@ -136,12 +136,12 @@
     "name": "Graffles",
     "category": "treat",
     "bundle": "pair16",
-    "description": "A Dog Mom Club market favorite, now available online for the holidays. Baked in small batches in Kansas City.",
-    "shortDescription": "A market favorite, now online for the holidays.",
+    "description": "Meet our breath-freshening treat. Graffles are packed with fresh spinach, curly parsley and a pinch of mint, blended with pumpkin and oats, then baked and slow-dried in small batches here in Kansas City. The result is a little green bite that makes those post-dinner dog kisses a lot more pleasant. A market favorite, now available online for the holidays.",
+    "shortDescription": "Our breath-freshening treat. Spinach, parsley and a pinch of mint, baked with pumpkin and oats.",
     "price": 9.0,
     "image": "/images/holiday/graffles-placeholder.jpg",
-    "badge": "Holiday",
-    "ingredients": "Full ingredient list coming soon.",
+    "badge": "Breath Freshening",
+    "ingredients": "Pumpkin, Egg, Rolled Oats, Spinach, Coconut Oil, Ground Flaxseed, Parsley, Mint",
     "variants": [
       {
         "type": "size",
